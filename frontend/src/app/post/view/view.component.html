@@ -1,1 +1,45 @@
-<p>view works!</p>
+<div class="d-flex mx-5" id="everything">
+    <div class="col-md-4 d-flex flex-wrap justify-content-center" id="imgPurge" style="top:80px" *ngIf="post.purge_id !== 0">
+        <!-- Contenido de la sección de purgas -->
+        <!--<a href="{{ getPurgeUrl(post.purge_id) }}">-->
+            <div class="image-text d-flex justify-content-center">
+                <img src="{{ 'http://127.0.0.1:8000/'+post.purge.files[0].file_path}}" alt="Purge Image">
+                <div class="text-overlay">{{ post.purge.title }}</div>
+            </div>
+        <!--</a>-->
+        <p class="join-text main-text text-center" style="width: 75%;" id="tiempo"> Loading... </p>
+        <script>
+            // Código JavaScript para el contador de tiempo
+        </script>
+    </div>
+
+    <div class="col-md-5 d-flex justify-content-center flex-wrap">
+        <!-- Contenido del post -->
+        <div class="card custom-max-width-lg">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
+                    <div class="ms-2 mx-auto">
+                        <h5>{{ post.user.data.name }}</h5>
+                        <p class="mb-0">{{ "@" + post.user.tagname }}</p>
+                    </div>
+                </div>
+                <p class="card-text mt-3">{{ post.content }}</p>
+                <div class="d-flex justify-content-center">
+                    <img *ngIf="post.files.length > 0" src="{{ 'http://127.0.0.1:8000/'+post.files[0].file_path }}" class="img-fluid mx-auto" alt="Imagen adjunta">
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div></div>
+                    <div>
+                        <button style="text-decoration: none" (click)="likePost(post.id)">
+                            <span>{{ post.likeados }} <i class="far fa-heart"></i> Me gusta</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-muted text-right">
+                {{ post.created_at }}
+            </div>
+        </div>
+    </div>
+</div>

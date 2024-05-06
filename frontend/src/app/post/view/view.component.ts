@@ -31,9 +31,24 @@ export class ViewComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['postId'];
     this.postService.find(this.id).subscribe((data: Post)=>{
+      console.log(data);
       this.post = data;
     });
+    
 
+  }
+
+  likePost(postId: number) {
+    this.postService.likePost(postId).subscribe(
+      response => {
+        console.log('Me gusta agregado exitosamente', response);
+        // Realiza cualquier acción adicional después de que el "Me gusta" sea exitoso
+      },
+      error => {
+        console.error('Error al dar Me gusta', error);
+        // Maneja el error de manera apropiada
+      }
+    );
   }
 
 }

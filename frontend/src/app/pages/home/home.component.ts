@@ -16,17 +16,16 @@ export class HomeComponent implements OnInit {
   allPosts: Post[] = [];
   newPostContent: string = '';
   selectedFile: File | null = null;
-  postForm: FormGroup;
+  postForm: any;
   loggedUser : any;
 
   constructor(private postService: PostService, private authStateService: AuthStateService, private formBuilder: FormBuilder, private authService : AuthService) { 
-    this.postForm = this.formBuilder.group({
-      content: [''],
-      file: [''],
-    });
   }
-
   ngOnInit(): void {
+    this.postForm = this.formBuilder.group({
+      content: ['', Validators.required], // Campo de contenido requerido
+      file: [null] // Campo de archivo opcional
+    });
     this.authStateService.userAuthState.subscribe((val: boolean) => {
       this.isSignedIn = val;
       if (this.isSignedIn) {
@@ -63,33 +62,34 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  
+
   onSubmit(): void {
     if (this.postForm.valid) {
       const formData = new FormData();
       formData.append('content', this.postForm.value.content);
       formData.append('file', this.postForm.value.file);
 
+      // Llamar al servicio para enviar el formulario
       this.postService.create(formData).subscribe(
         (response) => {
-          console.log('Post created successfully:', response);
-          // Aquí puedes realizar cualquier acción adicional después de crear el post, como redirigir al usuario a otra página
+          console.log('Post creado exitosamente:', response);
+          // Aquí puedes realizar cualquier acción adicional después de crear el post
         },
         (error) => {
-          console.error('Error creating post:', error);
+          console.error('Error al crear el post:', error);
           // Manejar errores aquí si es necesario
         }
       );
     }
   }
-
-  // Método para acceder fácilmente a los controles del formulario
-  get f() {
-    return this.postForm.controls;
-  }
-
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    // Obtiene el archivo seleccionado y lo asigna al formulario
+    this.postForm.patchValue({
+      file: event.target.files[0]
+    });
   }
+
 
   getUserLogged(){
     this.authService.profileUser().subscribe((data)=>{

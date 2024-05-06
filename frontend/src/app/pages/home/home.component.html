@@ -4,16 +4,16 @@
         <h3 class="pt-5">What are you thinking about?</h3>
         <div class="card w-75">
           <div class="card-body">
-            <form class="d-flex align-items-center flex-wrap" (ngSubmit)="onSubmit()" [formGroup]="postForm" enctype="multipart/form-data">
+            <form class="d-flex align-items-center flex-wrap" (ngSubmit)="onSubmit()" enctype="multipart/form-data" [formGroup]="postForm">
               <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
               <div class="ms-2 mx-auto">
-                <h5>{{ loggedUser.data.name }}</h5>
-                <p class="mb-0">{{ '@' + loggedUser.tagname }}</p>
+                  <h5>{{ loggedUser.data.name }}</h5>
+                  <p class="mb-0">{{ '@' + loggedUser.tagname }}</p>
               </div>
-              <textarea formControlName="content" class="card-text mt-3" id="validationServer01" cols="60" rows="5"></textarea>
-              <input type="file" name="file" id="file">
+              <textarea class="card-text mt-3" id="content" formControlName="content" cols="60" rows="5"></textarea>
+              <input type="file" id="file" (change)="onFileSelected($event)">
               <button type="submit" class="join-text text">Post</button>
-            </form>
+          </form>
           </div>
         </div>
         <h3 class="py-5">Your last posts:</h3>
@@ -22,8 +22,8 @@
             <div class="d-flex align-items-center">
               <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
               <div class="ms-2 mx-auto">
-                <h5>{{ post.user_id }}</h5>
-                <p class="mb-0">{{ '@' + post.user_id }}</p>
+                <h5>{{ post.user.data.name }}</h5>
+                <p class="mb-0">{{ '@' + post.user.tagname }}</p>
               </div>
             </div>
             <p class="card-text mt-3">{{ post.content }}</p>
@@ -49,8 +49,8 @@
             <div class="d-flex align-items-center">
               <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
               <div class="ms-2 mx-auto">
-                <h5>{{ post.user_id }}</h5>
-                <p class="mb-0">{{ '@' + post.user_id }}</p>
+                <h5>{{ post.user.data.name }}</h5>
+                <p class="mb-0">{{ '@' + post.user.tagname }}</p>
               </div>
             </div>
             <p class="card-text mt-3">{{ post.content }}</p>

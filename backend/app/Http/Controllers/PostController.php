@@ -19,7 +19,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::with('user.data', 'purge.files', 'files')->get();
         return $posts;
     }
 
@@ -81,10 +81,10 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        $post = Post::findOrFail($id);
-        return $post;
+        $post = Post::with('user.data', 'purge.files','files')->findOrFail($id); // Incluir los datos de la purga junto con los datos del usuario y su información adicional
+        return response()->json($post);
     }
 
     /**

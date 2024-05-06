@@ -82,7 +82,7 @@ export class PostService {
 
   //like
   likePost(id: number): Observable<any> {
-    return this.httpClient.post(this.apiURL+'/posts/like/'+id, null, this.httpOptions)
+    return this.httpClient.post(this.apiURL+'/posts/like/'+id, this.httpOptions)
       .pipe(
         catchError(this.errorHandler)
       );
