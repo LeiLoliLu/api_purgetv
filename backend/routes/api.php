@@ -21,9 +21,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(\App\Http\Controllers\PagesController::class)->group(function () {
-    Route::get('/', [\App\Http\Controllers\PagesController::class, 'home'])->name('home');
-    Route::post('/', [\App\Http\Controllers\PagesController::class, 'store'])->name('home.store');
+Route::controller(\App\Http\Controllers\PostController::class)->group(function () {
+    Route::get('posts', 'index');
+    Route::get('myposts', 'myindex');
+    Route::get('posts/{id}', 'show');
+    Route::post('posts/like/{id}', 'like');
+    Route::post('posts', 'store');
+    Route::put('posts/{id}', 'update');
+    Route::delete('post/{id}', 'delete');
 });
 
 Route::middleware('auth')->group(function () {
@@ -31,13 +36,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/edit', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::controller(\App\Http\Controllers\PostController::class)->group(function () {
-    Route::get('/profile', 'listMineProf')->name('profile.index');
-    Route::get('postsLiked', 'postsLiked')->name('posts.postsLiked');
-    Route::get('posts/{id}', 'show')->name('posts.show');
-    Route::post('posts/like/{id}', 'like')->name('posts.like');
 });
 
 Route::controller(\App\Http\Controllers\PurgeController::class)->group(function () {

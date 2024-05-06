@@ -1,42 +1,54 @@
-<div class="auth-wrapper">
-    <form class="form-signin" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <h3 class="h3 mb-3 font-weight-normal text-center">Register User</h3>
-      <!-- Errors -->
-      <div *ngIf="errors?.name" class="alert alert-danger mt-3">
-        {{ errors?.name }}
+<div class="container my-5 custom-max-width-lg">
+  <div class="row">
+      <div class="card">
+          <div class="card-body">
+              <h5 class="card-title main-text text-center">Register Now</h5>
+              <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                  <div class="mb-3">
+                      <label for="tagname" class="form-label">Tagname</label>
+                      <input type="text" formControlName="tagname" class="form-control" id="tagname" required>
+                      <!-- Manejo de errores -->
+                  </div>
+                  <div class="mb-3">
+                      <label for="name" class="form-label">Name</label>
+                      <input type="text" formControlName="name" class="form-control" id="name" required>
+                      <!-- Manejo de errores -->
+                  </div>
+                  <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" formControlName="email" class="form-control" id="email" required>
+                      <!-- Manejo de errores -->
+                  </div>
+                  <div class="mb-3">
+                      <label for="bio" class="form-label">Biography</label>
+                      <input type="text" formControlName="bio" class="form-control" id="bio" required>
+                      <!-- Manejo de errores -->
+                  </div>
+                  <div class="mb-3">
+                      <label for="phone" class="form-label">Phone</label>
+                      <input type="text" formControlName="phone" class="form-control" id="phone">
+                      <!-- Manejo de errores -->
+                  </div>
+                  <div class="mb-3">
+                      <label for="password" class="form-label">Password</label>
+                      <input type="password" formControlName="password" class="form-control" id="password" required>
+                      <!-- Manejo de errores -->
+                  </div>
+                  <div class="mb-3">
+                      <label for="password_confirmation" class="form-label">Confirm Password</label>
+                      <input type="password" formControlName="password_confirmation" class="form-control" id="password_confirmation" required>
+                      <!-- Manejo de errores -->
+                  </div>
+                  <div class="text-center">
+                      <button type="submit" class="join-text">Join Now</button>
+                  </div>
+              </form>
+          </div>
       </div>
-      <div *ngIf="errors?.email" class="alert alert-danger mt-3">
-        {{ errors?.email }}
+      <div class="card">
+        <app-signin></app-signin>
       </div>
-      <div *ngIf="errors?.password" class="alert alert-danger mt-3">
-        {{ errors?.password }}
-      </div>
-      <div *ngIf="errors?.password_confirmation" class="alert alert-danger mt-3">
-        {{ errors?.password_confirmation }}
-      </div>
-      <!-- Signup form -->
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" class="form-control" formControlName="name" />
-      </div>
-      <div class="form-group">
-        <label>Email address</label>
-        <input type="email" class="form-control" formControlName="email" />
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" formControlName="password" />
-      </div>
-      <div class="form-group">
-        <label>Confirm Password</label>
-        <input
-          type="password"
-          class="form-control"
-          formControlName="password_confirmation"
-        />
-      </div>
-      <button type="submit" class="btn btn-block btn-primary">
-        Register User
-      </button>
-    </form>
-  </div>
+      
+    </div>
+</div>
+

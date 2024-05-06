@@ -9,6 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AuthInterceptor } from './shared/auth-interceptor';
 import { PostModule } from './post/post.module';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { PostModule } from './post/post.module';
     SigninComponent,
     SignupComponent,
     UserProfileComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

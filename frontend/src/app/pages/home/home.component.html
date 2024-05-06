@@ -1,0 +1,93 @@
+<div class="container mt-5" *ngIf="isSignedIn; else signInMessage">
+    <div class="d-flex justify-content-evenly flex-wrap" id="everything">
+      <div class="col-md-4" id="postForm">
+        <h3 class="pt-5">What are you thinking about?</h3>
+        <div class="card w-75">
+          <div class="card-body">
+            <form class="d-flex align-items-center flex-wrap" (ngSubmit)="onSubmit()" [formGroup]="postForm" enctype="multipart/form-data">
+              <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
+              <div class="ms-2 mx-auto">
+                <h5>{{ loggedUser.data.name }}</h5>
+                <p class="mb-0">{{ '@' + loggedUser.tagname }}</p>
+              </div>
+              <textarea formControlName="content" class="card-text mt-3" id="validationServer01" cols="60" rows="5"></textarea>
+              <input type="file" name="file" id="file">
+              <button type="submit" class="join-text text">Post</button>
+            </form>
+          </div>
+        </div>
+        <h3 class="py-5">Your last posts:</h3>
+        <div *ngFor="let post of myPosts" class="card custom-max-width-lg" [routerLink]="['/post/', post.id, 'view']">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
+              <div class="ms-2 mx-auto">
+                <h5>{{ post.user_id }}</h5>
+                <p class="mb-0">{{ '@' + post.user_id }}</p>
+              </div>
+            </div>
+            <p class="card-text mt-3">{{ post.content }}</p>
+            <div class="d-flex justify-content-center">
+              <!--<img *ngIf="post.files" [src]="'/imgs/' + post.files[0].name" class="img-fluid mx-auto" alt="Imagen adjunta">-->
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div></div>
+              <div>
+                <span>{{ post.likeados }} <i class="far fa-heart"></i> Me gusta</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-muted text-right">
+            {{ post.created_at }}
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-5 d-flex justify-content-center flex-wrap py-5">
+        <div *ngFor="let post of allPosts" class="card custom-max-width-lg" [routerLink]="['/post/', post.id, 'view']">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
+              <div class="ms-2 mx-auto">
+                <h5>{{ post.user_id }}</h5>
+                <p class="mb-0">{{ '@' + post.user_id }}</p>
+              </div>
+            </div>
+            <p class="card-text mt-3">{{ post.content }}</p>
+            <div class="d-flex justify-content-center">
+              <!--<img *ngIf="post.files" [src]="'/imgs/' + post.files[0].name" class="img-fluid mx-auto" alt="Imagen adjunta">-->
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div></div>
+              <div>
+                <span>{{ post.likeados }} <i class="far fa-heart"></i> Me gusta</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-muted text-right">
+            {{ post.created_at }}
+          </div>
+        </div>
+        <div class="w-100 text-center py-5">
+          <!--<pagination-controls (pageChange)="pageChanged($event)" class="my-5"></pagination-controls>-->
+        </div>
+      </div>
+  
+      <div class="col-md-3 py-5 text-center" id="add">
+        <h3>Advertisements and Purge.TV news</h3>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #signInMessage>
+    <div class="container mt-5 text-center">
+      <p>
+        <span class="main-text">Discover what's live <strong>right now</strong>,</span>
+        <br>
+        <span class="small-text">or <a [routerLink]="['/login']" class="join-text">join</a> the purge yourself.</span>
+      </p>
+    </div>
+  
+    <!-- Aquí irían los banners de Purgas Actuales u otros elementos para usuarios no logueados -->
+  </ng-template>
+  

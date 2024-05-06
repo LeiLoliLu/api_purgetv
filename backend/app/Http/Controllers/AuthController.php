@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use App\Models\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -56,22 +57,35 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'name' => 'required|string|max:255',
             'password' => 'required|string|min:6',
+            'bio'=>'required|string'
         ]);
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
-}
+        }
+
         $user = User::create([
             'tagname' => $request->tagname,
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
-//$token = Auth::login($user);
+
+        // Crea el Data asociado al usuario
+        $data = new Data([
+            'name' => $request->name,
+            'bio' => $request->bio, // Puedes añadir más campos si es necesario
+        ]);
+        $user->data()->save($data);
+
+        // Devuelve el usuario con el Data
         return response()->json([
-        'message' => "User successfully registered",
-        'user' => $user,
-    ]);
-}
+            'message' => "User successfully registered",
+            'user' => $user,
+            'data' => $data,
+        ]);
+    }
+
     /**
      * Get the authenticated User.
      *
@@ -79,10 +93,9 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(
-        Auth::user(),
-    );
-}
+        $user = Auth::user()->load('data');
+        return response()->json($user);
+    }
 /**
  * Log the user out (Invalidate the token).
  *

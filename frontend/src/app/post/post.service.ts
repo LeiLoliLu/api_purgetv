@@ -22,7 +22,7 @@ import { Post } from './post';
 
 export class PostService {
 
-  private apiURL = "https://127.0.0.1:8000/api";
+  private apiURL = "http://127.0.0.1:8000/api";
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -31,21 +31,32 @@ export class PostService {
   }
 
   constructor(private httpClient: HttpClient) { }
+
+  //index
   getAll(): Observable<any> {
     return this.httpClient.get(this.apiURL + '/posts/')
     .pipe(
       catchError(this.errorHandler)
     )
-
   }
 
-  create(post:Post): Observable<any> {
+  //myindex
+  getMine(): Observable<any> {
+    return this.httpClient.get(this.apiURL + '/myposts/')
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
+  //store
+  create(post:FormData): Observable<any> {
     return this.httpClient.post(this.apiURL + '/posts/', JSON.stringify(post), this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
     )
   }  
 
+  //show
   find(id:number): Observable<any> {
     return this.httpClient.get(this.apiURL + '/posts/' + id)
     .pipe(
@@ -53,6 +64,7 @@ export class PostService {
     )
   }
 
+  //update
   update(id:number, post:Post): Observable<any> {
     return this.httpClient.put(this.apiURL + '/posts/' + id, JSON.stringify(post), this.httpOptions)
     .pipe( 
@@ -60,11 +72,20 @@ export class PostService {
     )
   }
 
+  //delete
   delete(id:number){
     return this.httpClient.delete(this.apiURL + '/posts/' + id, this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
     )
+  }
+
+  //like
+  likePost(id: number): Observable<any> {
+    return this.httpClient.post(this.apiURL+'/posts/like/'+id, null, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandler)
+      );
   }
 
   errorHandler(error:any) {
