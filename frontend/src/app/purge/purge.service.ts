@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 
   
 
-import { Post } from './post';
+import { Purge } from './purge';
 
   
 
@@ -20,7 +20,7 @@ import { Post } from './post';
 
 })
 
-export class PostService {
+export class PurgeService {
 
   private apiURL = "http://127.0.0.1:8000/api";
 
@@ -30,30 +30,23 @@ export class PostService {
     })
   }
 
+
   constructor(private httpClient: HttpClient) { }
 
   //index
   getAll(): Observable<any> {
-    return this.httpClient.get(this.apiURL + '/posts/')
-    .pipe(
-      catchError(this.errorHandler)
-    )
-  }
-
-  //myindex
-  getMine(): Observable<any> {
-    return this.httpClient.get(this.apiURL + '/myposts/')
+    return this.httpClient.get(this.apiURL + '/purges/')
     .pipe(
       catchError(this.errorHandler)
     )
   }
 
   //store
-  create(post: FormData): Observable<any> {
+  create(purge: FormData): Observable<any> {
     const headers = new HttpHeaders();
     headers.append('Content-Type','multipart/form-data');
     headers.append('Accept','application/json');
-    return this.httpClient.post(this.apiURL + '/posts/', post, {headers:headers})
+    return this.httpClient.post(this.apiURL + '/purges/', purge, {headers:headers})
       .pipe(
         catchError(this.errorHandler)
       );
@@ -62,15 +55,15 @@ export class PostService {
 
   //show
   find(id:number): Observable<any> {
-    return this.httpClient.get(this.apiURL + '/posts/' + id)
+    return this.httpClient.get(this.apiURL + '/purges/' + id)
     .pipe(
       catchError(this.errorHandler)
     )
   }
 
   //update
-  update(id:number, post:Post): Observable<any> {
-    return this.httpClient.put(this.apiURL + '/posts/' + id, JSON.stringify(post), this.httpOptions)
+  update(id:number, purge:Purge): Observable<any> {
+    return this.httpClient.put(this.apiURL + '/purge/' + id, JSON.stringify(purge), this.httpOptions)
     .pipe( 
       catchError(this.errorHandler)
     )
@@ -78,19 +71,12 @@ export class PostService {
 
   //delete
   delete(id:Number){
-    return this.httpClient.delete<Post>(this.apiURL + '/post/' + id, this.httpOptions)
+    return this.httpClient.delete<Purge>(this.apiURL + '/purge/' + id, this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
     )
   }
 
-  //like
-  likePost(id: number): Observable<any> {
-    return this.httpClient.post(this.apiURL+'/posts/like/'+id, this.httpOptions)
-      .pipe(
-        catchError(this.errorHandler)
-      );
-  }
 
   errorHandler(error:any) {
     let errorMessage = '';

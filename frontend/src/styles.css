@@ -38,7 +38,9 @@
 	width: 75%;
 	height: auto;
 	display: block;
+	opacity: 60%;
 }
+
 #add{
 	background-color: #e6e6e6;
 }

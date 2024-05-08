@@ -1,16 +1,14 @@
 <div class="d-flex mx-5" id="everything">
-    <div class="col-md-4 d-flex flex-wrap justify-content-center" id="imgPurge" style="top:80px" *ngIf="post.purge_id !== 0">
-        <!-- Contenido de la sección de purgas -->
-        <!--<a href="{{ getPurgeUrl(post.purge_id) }}">-->
+    
+    <div class="col-md-4 d-flex flex-wrap justify-content-center" id="imgPurge" style="top:80px" *ngIf="post && post.purge">
+        <!-- Contenido de la sección de purgas-->
+        <a [routerLink]="['/purges', post.purge_id, 'view']">
             <div class="image-text d-flex justify-content-center">
                 <img src="{{ 'http://127.0.0.1:8000/'+post.purge.files[0].file_path}}" alt="Purge Image">
-                <div class="text-overlay">{{ post.purge.title }}</div>
+                <div class="text-overlay">{{ post.purge.titulo }}</div>
             </div>
-        <!--</a>-->
-        <p class="join-text main-text text-center" style="width: 75%;" id="tiempo"> Loading... </p>
-        <script>
-            // Código JavaScript para el contador de tiempo
-        </script>
+        </a>
+        <p class="join-text main-text text-center" style="width: 75%;" id="tiempo">{{ timer || 'Loading...' }}</p>
     </div>
 
     <div class="col-md-5 d-flex justify-content-center flex-wrap">
@@ -26,7 +24,7 @@
                 </div>
                 <p class="card-text mt-3">{{ post.content }}</p>
                 <div class="d-flex justify-content-center">
-                    <img *ngIf="post.files.length > 0" src="{{ 'http://127.0.0.1:8000/'+post.files[0].file_path }}" class="img-fluid mx-auto" alt="Imagen adjunta">
+                    <img *ngIf="post.files[0] != null" src="{{ 'http://127.0.0.1:8000/'+post.files[0].file_path }}" class="img-fluid mx-auto" alt="Imagen adjunta">
                 </div>
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <div></div>
@@ -37,6 +35,8 @@
                     </div>
                 </div>
             </div>
+            <a href="#" [routerLink]="['/post/', post.id, 'edit']" class="btn btn-primary"   *ngIf="loggedUser && (loggedUser.id === post.user_id || loggedUser.role_id === 1)">Editar</a> <!-- || loggedUser.id==peticion.user_id||loggedUser.role_id==1-->
+    <button type="button" (click)="deletePost(post.id)" class="btn btn-danger"   *ngIf="loggedUser && (loggedUser.id === post.user_id || loggedUser.role_id === 1)">Eliminar</button>
             <div class="card-footer text-muted text-right">
                 {{ post.created_at }}
             </div>

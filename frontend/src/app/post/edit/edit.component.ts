@@ -25,6 +25,7 @@ export class EditComponent implements OnInit {
   id!: number;
   post!: Post;
   form!: FormGroup;
+  selectedImage: any;
 
   constructor(
     public postService: PostService,
@@ -39,8 +40,8 @@ export class EditComponent implements OnInit {
     }); 
 
     this.form = new FormGroup({
-      title: new FormControl('', [Validators.required]),
-      body: new FormControl('', Validators.required)
+      content: new FormControl('', [Validators.required]),
+      file: new FormControl('')
     });
   }
 
@@ -48,12 +49,24 @@ export class EditComponent implements OnInit {
     return this.form.controls;
   }
 
-  submit(){
-    console.log(this.form.value);
-    this.postService.update(this.id, this.form.value).subscribe((res:any) => {
-         console.log('Post updated successfully!');
-         this.router.navigateByUrl('post/index');
+  onSubmit(form:FormGroup): void {
 
-    })
+    this.postService.update(this.post.id, this.form.value).subscribe(
+      (response) => {
+        console.log('Post creado exitosamente:', response);
+        this.router.navigateByUrl('post/'+response.post.id+'/view');
+      },
+      (error) => {
+        console.error('Error al crear el post:', error);
+        // Manejar errores aquí si es necesario
+      }
+    );
+}
+
+  onSelectFile(event:any){
+    if(event.target.files.length>0){
+      const file= event.target.files[0];
+      this.selectedImage=file;
+    }
   }
 }

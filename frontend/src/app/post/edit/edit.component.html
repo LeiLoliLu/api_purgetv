@@ -1,1 +1,12 @@
-<p>edit works!</p>
+<div class="card w-50 mx-auto">
+    <div class="card-body">
+        <h5>Editar Publicación</h5>
+      <form class="d-flex align-items-center flex-column" (ngSubmit)="onSubmit(form)" enctype="multipart/form-data" [formGroup]="form">
+        <textarea class="card-text mt-3" id="content" formControlName="content" cols="60" rows="5" [(ngModel)]="post.content"></textarea>
+        
+        <input type="file" id="file" (change)="onSelectFile($event)">
+        <br>
+        <button type="submit" class="join-text text">Post</button>
+    </form>
+    </div>
+  </div>

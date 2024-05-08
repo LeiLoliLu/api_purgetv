@@ -14,7 +14,7 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show', 'list']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
     }
 
     public function index()
@@ -27,10 +27,12 @@ class PostController extends Controller
     {
         try {
             $user = Auth::user();
-            $posts = Post::all()->where('user_id', $user->id);
+            $posts = Post::where('user_id', $user->id)
+                ->with('user.data', 'purge.files', 'files')
+                ->get();
             return $posts;
-        }catch (\Exception $exception){
-            return back()->withErrors( $exception->getMessage())->withInput();
+        } catch (\Exception $exception) {
+            return back()->withErrors($exception->getMessage())->withInput();
         }
     }
 
@@ -41,7 +43,6 @@ class PostController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'content' => 'required|max:255',
-            'file' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {

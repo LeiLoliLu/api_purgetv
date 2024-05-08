@@ -4,41 +4,41 @@
         <h3 class="pt-5">What are you thinking about?</h3>
         <div class="card w-75">
           <div class="card-body">
-            <form class="d-flex align-items-center flex-wrap" (ngSubmit)="onSubmit()" enctype="multipart/form-data" [formGroup]="postForm">
+            <form class="d-flex align-items-center flex-wrap" (ngSubmit)="onSubmit(form)" enctype="multipart/form-data" [formGroup]="form">
               <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
               <div class="ms-2 mx-auto">
                   <h5>{{ loggedUser.data.name }}</h5>
                   <p class="mb-0">{{ '@' + loggedUser.tagname }}</p>
               </div>
               <textarea class="card-text mt-3" id="content" formControlName="content" cols="60" rows="5"></textarea>
-              <input type="file" id="file" (change)="onFileSelected($event)">
+              <input type="file" id="file" (change)="onSelectFile($event)">
               <button type="submit" class="join-text text">Post</button>
           </form>
           </div>
         </div>
         <h3 class="py-5">Your last posts:</h3>
-        <div *ngFor="let post of myPosts" class="card custom-max-width-lg" [routerLink]="['/post/', post.id, 'view']">
+        <div *ngFor="let mypost of myPosts" class="card custom-max-width-lg" [routerLink]="['/post/', mypost.id, 'view']">
           <div class="card-body">
             <div class="d-flex align-items-center">
               <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
               <div class="ms-2 mx-auto">
-                <h5>{{ post.user.data.name }}</h5>
-                <p class="mb-0">{{ '@' + post.user.tagname }}</p>
+                <h5>{{ mypost.user.data.name }}</h5>
+                <p class="mb-0">{{ '@' + mypost.user.tagname }}</p>
               </div>
             </div>
-            <p class="card-text mt-3">{{ post.content }}</p>
+            <p class="card-text mt-3">{{ mypost.content }}</p>
             <div class="d-flex justify-content-center">
-              <!--<img *ngIf="post.files" [src]="'/imgs/' + post.files[0].name" class="img-fluid mx-auto" alt="Imagen adjunta">-->
+              <img *ngIf="mypost.files[0] != null" src="{{ 'http://127.0.0.1:8000/'+mypost.files[0].file_path }}" class="img-fluid mx-auto" alt="Imagen adjunta">
             </div>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <div></div>
               <div>
-                <span>{{ post.likeados }} <i class="far fa-heart"></i> Me gusta</span>
+                <span>{{ mypost.likeados }} <i class="far fa-heart"></i> Me gusta</span>
               </div>
             </div>
           </div>
           <div class="card-footer text-muted text-right">
-            {{ post.created_at }}
+            {{ mypost.created_at }}
           </div>
         </div>
       </div>
@@ -55,7 +55,7 @@
             </div>
             <p class="card-text mt-3">{{ post.content }}</p>
             <div class="d-flex justify-content-center">
-              <!--<img *ngIf="post.files" [src]="'/imgs/' + post.files[0].name" class="img-fluid mx-auto" alt="Imagen adjunta">-->
+              <img *ngIf="post.files[0] != null" src="{{ 'http://127.0.0.1:8000/'+post.files[0].file_path }}" class="img-fluid mx-auto" alt="Imagen adjunta">
             </div>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <div></div>

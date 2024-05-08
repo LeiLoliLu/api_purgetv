@@ -7,9 +7,11 @@ import { SignupComponent } from './components/signup/signup.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AuthInterceptor } from './shared/auth-interceptor';
+import { AuthInterceptor } from './shared/auth-interceptor.service';
 import { PostModule } from './post/post.module';
 import { HomeComponent } from './pages/home/home.component';
+import { PurgeModule } from './purge/purge.module';
+import { PurgeRoutingModule } from './purge/purge-routing.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { HomeComponent } from './pages/home/home.component';
     ReactiveFormsModule,
     FormsModule,
     PostModule,
+    PurgeModule,
+    PurgeRoutingModule,
   ],
   providers: [
     {

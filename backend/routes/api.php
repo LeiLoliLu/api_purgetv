@@ -31,18 +31,13 @@ Route::controller(\App\Http\Controllers\PostController::class)->group(function (
     Route::delete('post/{id}', 'delete');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile/edit', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 Route::controller(\App\Http\Controllers\PurgeController::class)->group(function () {
-    Route::get('/purges', [PurgeController::class, 'index'])->name('purges.index');
-    Route::get('/purges/{id}', 'show')->name('purges.show');
-    Route::post('/purges/', 'store')->name('purges.store');
-
+    Route::get('purges', 'index');
+    Route::get('purges/{id}', 'show');
+    Route::post('purges', 'store');
+    Route::put('purge/{id}', 'update');
+    Route::delete('purge/{id}', 'delete');
 });
 
 Route::controller(AuthController::class)->group(function () {

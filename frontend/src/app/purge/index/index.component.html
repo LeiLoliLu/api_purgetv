@@ -1,0 +1,10 @@
+<h3 class="text-center py-5">Explore Purges</h3>
+<div class="container-fluid">
+    <div class="col-md-3 text-center" *ngFor="let purge of purges">
+        <div class="image-text d-flex justify-content-center">
+            <img [src]="'http://127.0.0.1:8000/'+ purge.files[0].file_path" alt="Purge Image">
+            <div class="text-overlaysmaller">{{ purge.titulo }}</div>
+        </div>
+        <p class="join-text main-text text-center" style="width: 75%;" id="buttonGo" [routerLink]="['/purges', purge.id, 'view']"> Go to Purge</p>
+    </div>
+</div>

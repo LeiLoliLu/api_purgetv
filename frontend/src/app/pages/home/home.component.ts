@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators , FormControl} from '@angular/forms';
+import { Router } from '@angular/router';
 import { Post } from 'src/app/post/post';
 import { PostService } from 'src/app/post/post.service';
 import { AuthStateService } from 'src/app/shared/auth-state.service';
@@ -15,16 +16,17 @@ export class HomeComponent implements OnInit {
   myPosts: Post[] = [];
   allPosts: Post[] = [];
   newPostContent: string = '';
-  selectedFile: File | null = null;
-  postForm: any;
   loggedUser : any;
+  selectedImage: any;
+  form!: FormGroup;
+  
 
-  constructor(private postService: PostService, private authStateService: AuthStateService, private formBuilder: FormBuilder, private authService : AuthService) { 
+  constructor(private postService: PostService, private authStateService: AuthStateService, private formBuilder: FormBuilder, private authService : AuthService, private router: Router) { 
   }
   ngOnInit(): void {
-    this.postForm = this.formBuilder.group({
-      content: ['', Validators.required], // Campo de contenido requerido
-      file: [null] // Campo de archivo opcional
+    this.form = new FormGroup({
+      content: new FormControl('', [Validators.required]),
+      file: new FormControl('')
     });
     this.authStateService.userAuthState.subscribe((val: boolean) => {
       this.isSignedIn = val;
@@ -41,7 +43,7 @@ export class HomeComponent implements OnInit {
   loadMyPosts() {
     this.postService.getMine().subscribe(
       (response) => {
-        this.myPosts = response;
+          this.myPosts=response
       },
       (error) => {
         console.error('Error loading my posts:', error);
@@ -64,30 +66,31 @@ export class HomeComponent implements OnInit {
 
   
 
-  onSubmit(): void {
-    if (this.postForm.valid) {
+  onSubmit(form:FormGroup): void {
       const formData = new FormData();
-      formData.append('content', this.postForm.value.content);
-      formData.append('file', this.postForm.value.file);
+      formData.append('content', form.value.content);
 
-      // Llamar al servicio para enviar el formulario
+      if(this.selectedImage!=null){
+        formData.append('file',this.selectedImage);
+      }else{
+        console.log("imagen nula");
+      }
       this.postService.create(formData).subscribe(
         (response) => {
           console.log('Post creado exitosamente:', response);
-          // Aquí puedes realizar cualquier acción adicional después de crear el post
+          this.router.navigateByUrl('post/'+response.post.id+'/view');
         },
         (error) => {
           console.error('Error al crear el post:', error);
           // Manejar errores aquí si es necesario
         }
       );
-    }
   }
-  onFileSelected(event: any) {
-    // Obtiene el archivo seleccionado y lo asigna al formulario
-    this.postForm.patchValue({
-      file: event.target.files[0]
-    });
+  onSelectFile(event:any){
+    if(event.target.files.length>0){
+      const file= event.target.files[0];
+      this.selectedImage=file;
+    }
   }
 
 

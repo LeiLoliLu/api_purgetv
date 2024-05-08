@@ -12,7 +12,8 @@ class PurgeController extends Controller
      */
     public function index()
     {
-        //
+        $purges = Purge::with('files')->get();
+        return $purges;
     }
 
     /**

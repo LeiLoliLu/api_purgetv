@@ -42,6 +42,9 @@
                     <li class="nav-item">
                         <a class="nav-link" *ngIf="!isSignedIn" routerLink="/login">Join Now</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="signOut()" *ngIf="isSignedIn">Log out</a>
+                    </li>
                     <!-- Puedes agregar más enlaces aquí -->
                 </ul>
             </div>
