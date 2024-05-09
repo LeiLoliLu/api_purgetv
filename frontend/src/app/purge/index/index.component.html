@@ -1,4 +1,5 @@
 <h3 class="text-center py-5">Explore Purges</h3>
+<a href="#" [routerLink]="['/purges/create']" class="btn btn-success text-center"   *ngIf="loggedUser && loggedUser.role_id === 1">Crear Purga</a>
 <div class="container-fluid">
     <div class="col-md-3 text-center" *ngFor="let purge of purges">
         <div class="image-text d-flex justify-content-center">

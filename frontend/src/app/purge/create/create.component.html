@@ -1,1 +1,18 @@
-<p>create works!</p>
+<div class="card w-50 mx-auto">
+    <div class="card-body">
+        <h5>Crear Purga</h5>
+      <form class="d-flex align-items-center flex-column" (ngSubmit)="onSubmit(form)" enctype="multipart/form-data" [formGroup]="form">
+        <label for="titulo">Titulo:</label>
+        <input class="card-text mt-3" id="titulo" formControlName="titulo">
+        <label for="fecha_fin">Fecha Fin:</label>
+        <input type="datetime-local" name="fecha_fin" id="fecha_fin" formControlName="fecha_fin">
+        <label for="fase">Fase:</label>
+        <input type="number" name="fase" id="fase" formControlName="fase">
+        <label for="purge_id">Id:</label>
+        <input type="number" name="purge_id" id="purge_id" formControlName="purge_id">
+        <input type="file" id="file" (change)="onSelectFile($event)">
+        <br>
+        <button type="submit" class="join-text text">Guardar</button>
+    </form>
+    </div>
+  </div>

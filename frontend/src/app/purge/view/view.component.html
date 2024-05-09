@@ -1,1 +1,57 @@
-<p>view works!</p>
+<div class="col-md-12 text-center">
+    <div class="image-text d-flex justify-content-center banner">
+        <img [src]="'http://127.0.0.1:8000/'+ purge.files[0].file_path" alt="Purge Image">
+            <div class="text-overlay">{{ purge.titulo }}</div>
+    </div>
+    <p class="join-text main-text text-center" style="width: 75%;" id="tiempo">{{ timer || 'Loading...' }}</p>
+    <a href="#" [routerLink]="['/purges/', purge.id, 'edit']" class="btn btn-primary"   *ngIf="loggedUser && loggedUser.role_id === 1">Editar</a>
+    <button type="button" (click)="deletePurge(purge.id)" class="btn btn-danger"   *ngIf="loggedUser && loggedUser.role_id === 1">Eliminar</button>
+</div>
+
+<div class="w-100 d-flex justify-content-center">
+    <div class="col-md-5 d-flex justify-content-center flex-wrap">
+        <span id="input">
+            <h3 class="pt-5">What are you thinking about?</h3>
+            <div class="card w-75">
+                <div class="card-body">
+                    <form class="d-flex align-items-center flex-wrap" (ngSubmit)="onSubmit(form)" enctype="multipart/form-data" [formGroup]="form">
+                        <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
+                        <div class="ms-2 mx-auto">
+                            <h5>{{ loggedUser.data.name }}</h5>
+                            <p class="mb-0">{{ '@' + loggedUser.tagname }}</p>
+                        </div>
+                        <textarea class="card-text mt-3" id="content" formControlName="content" cols="60" rows="5"></textarea>
+                        <input type="checkbox" checked="checked" id="purge_id" name="purge_id" value="{{purge.id}}" class="d-none">
+                        <input type="file" id="file" (change)="onSelectFile($event)">
+                        <button type="submit" class="join-text text">Post</button>
+                    </form>
+                </div>
+            </div>
+        </span>
+    </div>
+</div>
+
+<div class="d-flex flex-wrap justify-content-evenly">
+    <div class="card custom-max-width-lg" *ngFor="let post of purge.posts" [routerLink]="['/post/', post.id, 'view']">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <img src="img/user.jpg" class="mr-3 rounded-circle" alt="Perfil de usuario" style="width: 50px; height: 50px;">
+                <div class="ms-2 mx-auto">
+                    <h5>{{ post.user.data.name }}</h5>
+                    <p class="mb-0">@{{ '@' + post.user.tagname }}</p>
+                </div>
+            </div>
+            <p class="card-text mt-3">{{ post.content }}</p>
+            <div class="d-flex justify-content-center">
+                <img *ngIf="post.files[0] != null" src="{{ 'http://127.0.0.1:8000/'+post.files[0].file_path }}" class="img-fluid mx-auto" alt="Imagen adjunta">
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div></div>
+                <div>
+                    <span>{{ post.likeados }} <i class="far fa-heart"></i> Me gusta</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted text-right">{{ post.created_at }}</div>
+    </div>
+</div>

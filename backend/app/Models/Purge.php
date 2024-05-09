@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Purge extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $fillable = ['id','fase','titulo','fecha_fin'];
 
     public function posts(){

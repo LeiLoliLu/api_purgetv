@@ -1,1 +1,15 @@
-<p>edit works!</p>
+<div class="card w-50 mx-auto">
+    <div class="card-body">
+        <h5>Editar Purga</h5>
+      <form class="d-flex align-items-center flex-column" (ngSubmit)="onSubmit(form)" enctype="multipart/form-data" [formGroup]="form">
+        <input class="card-text mt-3" id="titulo" formControlName="titulo" [(ngModel)]="purge.titulo">
+        <input type="datetime-local" name="fecha_fin" id="fecha_fin" formControlName="fecha_fin" [(ngModel)]="purge.fecha_fin">
+        <input type="number" name="fase" id="fase" formControlName="fase" [(ngModel)]="purge.fase">
+        <label for="purge_id">Id:</label>
+        <input type="number" name="purge_id" id="purge_id" formControlName="purge_id" [(ngModel)]="purge.id">
+        <input type="file" id="file" (change)="onSelectFile($event)">
+        <br>
+        <button type="submit" class="join-text text">Guardar</button>
+    </form>
+    </div>
+  </div>

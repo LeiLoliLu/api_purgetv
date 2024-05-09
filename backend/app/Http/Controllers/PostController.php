@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\Post;
+use App\Models\Purge;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +51,17 @@ class PostController extends Controller
         }
 
         try {
+
             $post = new Post();
+            if ($request->has('purge_id')) {
+                $id = intval($request->input('purge_id'));
+                if ($id) {
+                    $purge = Purge::findOrFail($id);
+                    $post->purge_id = $id;
+                    $post->purge()->associate($purge);
+                }
+            }
+
             $post->content = $request->input('content');
             $post->likeados = 0;
             $post->is_purged = 0;

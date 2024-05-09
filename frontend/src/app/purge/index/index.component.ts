@@ -17,7 +17,7 @@ export class IndexComponent implements OnInit {
   loggedUser: any;
   image: string = "";
 
-  serverURL="http://localhost:8000/api";
+  serverURL="http://localhost:8000/";
     
   constructor(public purgeService: PurgeService,
     private auth: AuthStateService,
