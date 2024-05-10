@@ -60,6 +60,8 @@ class PostController extends Controller
                     $post->purge_id = $id;
                     $post->purge()->associate($purge);
                 }
+            }else{
+                $post->purge_id = null;
             }
 
             $post->content = $request->input('content');
@@ -85,7 +87,7 @@ class PostController extends Controller
             return response()->json(['message' => 'Post created successfully', 'post' => $post], 201);
         } catch (\Throwable $th) {
             // Capturar cualquier error y devolver una respuesta de error
-            return response()->json(['message' => 'The post could not be created'], 500);
+            return response()->json(['message' => 'The post could not be created', 'error'=>$th], 500);
         }
     }
 

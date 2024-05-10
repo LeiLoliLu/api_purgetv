@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('content');
             $table->boolean('is_purged'); //true / false
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('purge_id')->references('id')->on('purges')->nullable();
+            $table->foreignId('purge_id')->nullable()->references('id')->on('purges');
             $table->timestamps(); //date
             $table->bigInteger('likeados');
         });
